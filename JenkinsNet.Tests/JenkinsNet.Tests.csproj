@@ -49,8 +49,10 @@
   <ItemGroup>
     <Compile Include="JenkinsJobTests.cs" />
     <Compile Include="JenkinsServerTests.cs" />
+    <Compile Include="MockConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JenkinsViewTests.cs" />
+    <Compile Include="xmlDocument.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JenkinsNet\JenkinsNet.csproj">

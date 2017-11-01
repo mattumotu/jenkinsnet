@@ -1,4 +1,4 @@
-﻿namespace Jenkins.Tests
+﻿namespace JenkinsNet.Tests
 {
     using System.Collections.Generic;
     using System.Configuration;

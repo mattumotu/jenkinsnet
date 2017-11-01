@@ -1,4 +1,4 @@
-﻿namespace Jenkins.Tests
+﻿namespace JenkinsNet.Tests
 {
     using System.Collections.Generic;
     using System.Configuration;
@@ -8,7 +8,20 @@
     [TestClass]
     public class JenkinsServerTests
     {
-        private JenkinsConnection jenkinsConnection = new JenkinsConnection(ConfigurationManager.AppSettings["JenkinsURL"]);
+        private IJenkinsConnection jenkinsConnection;
+
+        public JenkinsServerTests()
+        {
+            this.jenkinsConnection = new MockConnection();
+            if (bool.Parse(ConfigurationManager.AppSettings["UseMockConnection"] ?? "false"))
+            {
+                this.jenkinsConnection = new MockConnection();
+            }
+            else
+            {
+                this.jenkinsConnection = new JenkinsConnection(ConfigurationManager.AppSettings["JenkinsURL"]);
+            }
+        }
 
         [TestMethod]
         public void JenkinsServer_Views()
