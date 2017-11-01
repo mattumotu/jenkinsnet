@@ -15,7 +15,7 @@ before_build:
 - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
 
 build:
-  project: Postman.sln
+  project: JenkinsNet.sln
   verbosity: minimal
 
 test_script:
