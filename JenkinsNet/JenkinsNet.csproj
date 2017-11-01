@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IJenkinsConnection.cs" />
     <Compile Include="JenkinsView.cs" />
     <Compile Include="JenkinsJob.cs" />
     <Compile Include="JenkinsServer.cs" />

@@ -5,9 +5,9 @@
 
     public class JenkinsServer
     {
-        private JenkinsConnection jenkinsConnection;
+        private IJenkinsConnection jenkinsConnection;
 
-        public JenkinsServer(JenkinsConnection jenkinsConnection)
+        public JenkinsServer(IJenkinsConnection jenkinsConnection)
         {
             this.jenkinsConnection = jenkinsConnection;
         }
@@ -16,7 +16,7 @@
         {
             var views = new List<JenkinsView>();
 
-            string responseText = this.jenkinsConnection.Get("/api/xml?tree=views[name]&pretty=true");
+            string responseText = this.jenkinsConnection.Get("/api/xml?tree=views[name]");
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(responseText);
 

@@ -8,19 +8,9 @@
     public class JenkinsJob : IEquatable<JenkinsJob>
     {
         /// <summary>
-        /// Holds the name
-        /// </summary>
-        private readonly string name;
-
-        /// <summary>
         /// Holds the jenkins connection
         /// </summary>
-        private JenkinsConnection jenkinsConnection;
-
-        /// <summary>
-        /// Holds the class (e.g. project type, such as: hudson.model.FreeStyleProject)
-        /// </summary>
-        private string className;
+        private IJenkinsConnection jenkinsConnection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsJob" /> class.
@@ -28,23 +18,22 @@
         /// <param name="jenkinsConnection">the jenkins connection</param>
         /// <param name="className">the class</param>
         /// <param name="name">the name</param>
-        public JenkinsJob(JenkinsConnection jenkinsConnection, string className, string name)
+        public JenkinsJob(IJenkinsConnection jenkinsConnection, string className, string name)
         {
             this.jenkinsConnection = jenkinsConnection;
-            this.className = className;
-            this.name = name;
+            this.Class = className;
+            this.Name = name;
         }
+
+        /// <summary>
+        /// Holds the class (e.g. project type, such as: hudson.model.FreeStyleProject)
+        /// </summary>
+        public string Class { get; private set; }
 
         /// <summary>
         /// Gets the name
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets or sets the Config XML on jenkins server
@@ -53,12 +42,12 @@
         {
             get
             {
-                return this.jenkinsConnection.Get(string.Format("/job/{0}/config.xml", this.name));
+                return this.jenkinsConnection.Get(string.Format("/job/{0}/config.xml", this.Name));
             }
 
             set
             {
-                this.jenkinsConnection.Post(string.Format("/job/{0}/config.xml", this.name), "text/xml", value);
+                this.jenkinsConnection.Post(string.Format("/job/{0}/config.xml", this.Name), "text/xml", value);
             }
         }
 
@@ -74,9 +63,9 @@
                 try
                 {
                     this.jenkinsConnection.Post(
-                        string.Format("/createItem?name={0}&mode={1}", this.name, this.className),
+                        string.Format("/createItem?name={0}&mode={1}", this.Name, this.Class),
                         "application/x-www-form-urlencoded",
-                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.name, this.className));
+                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Class));
                     return true;
                 }
                 catch
@@ -99,7 +88,7 @@
             {
                 try
                 {
-                    this.jenkinsConnection.Post(string.Format("/job/{0}/doDelete", this.name), "application/x-www-form-urlencoded", string.Empty);
+                    this.jenkinsConnection.Post(string.Format("/job/{0}/doDelete", this.Name), "application/x-www-form-urlencoded", string.Empty);
                     return true;
                 }
                 catch
@@ -117,7 +106,7 @@
         /// <returns>true if job exists; otherwise false</returns>
         public bool Exists()
         {
-            var result = this.jenkinsConnection.Get(string.Format("/checkJobName?value={0}", this.name));
+            var result = this.jenkinsConnection.Get(string.Format("/checkJobName?value={0}", this.Name));
             return result.Contains("error");
         }
 

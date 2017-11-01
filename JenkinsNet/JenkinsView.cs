@@ -11,24 +11,24 @@
         /// <summary>
         /// Holds the jenkins connection
         /// </summary>
-        private JenkinsConnection jenkinsConnection;
+        private IJenkinsConnection jenkinsConnection;
 
-        /// <summary>
-        /// Holds the name
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// Holds the class (e.g. view type, such as: hudson.model.ListView)
-        /// </summary>
-        private string className;
-
-        public JenkinsView(JenkinsConnection jenkinsConnection, string className, string name)
+        public JenkinsView(IJenkinsConnection jenkinsConnection, string className, string name)
         {
             this.jenkinsConnection = jenkinsConnection;
-            this.className = className;
-            this.name = name;
+            this.Class = className;
+            this.Name = name;
         }
+
+        /// <summary>
+        /// Gets the class (e.g. view type, such as: hudson.model.ListView)
+        /// </summary>
+        public string Class { get; private set; }
+
+        /// <summary>
+        /// Gets the Name
+        /// </summary>
+        public string Name { get; private set; }
 
         public bool Create(bool failIfExists = false)
         {
@@ -37,9 +37,9 @@
                 try
                 {
                     this.jenkinsConnection.Post(
-                        string.Format("/createView?name={0}&mode={1}", this.name, this.className),
+                        string.Format("/createView?name={0}&mode={1}", this.Name, this.Class),
                         "application/x-www-form-urlencoded",
-                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.name, this.className));
+                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Class));
                     return true;
                 }
                 catch
@@ -57,7 +57,7 @@
             {
                 try
                 {
-                    this.jenkinsConnection.Post(string.Format("/view/{0}/doDelete", this.name), "application/x-www-form-urlencoded", string.Empty);
+                    this.jenkinsConnection.Post(string.Format("/view/{0}/doDelete", this.Name), "application/x-www-form-urlencoded", string.Empty);
                     return true;
                 }
                 catch
@@ -71,7 +71,7 @@
 
         public bool Exists()
         {
-            var result = this.jenkinsConnection.Get(string.Format("/viewExistsCheck?value={0}", this.name));
+            var result = this.jenkinsConnection.Get(string.Format("/viewExistsCheck?value={0}", this.Name));
             return result.Contains("error");
         }
 
@@ -81,7 +81,7 @@
             {
                 try
                 {
-                    this.jenkinsConnection.Post(string.Format("/view/{0}/addJobToView?name={1}", this.name, job.Name), string.Empty, string.Empty);
+                    this.jenkinsConnection.Post(string.Format("/view/{0}/addJobToView?name={1}", this.Name, job.Name), string.Empty, string.Empty);
                     return true;
                 }
                 catch
@@ -99,7 +99,7 @@
             {
                 try
                 {
-                    this.jenkinsConnection.Post(string.Format("/view/{0}/removeJobFromView?name={1}", this.name, job.Name), string.Empty, string.Empty);
+                    this.jenkinsConnection.Post(string.Format("/view/{0}/removeJobFromView?name={1}", this.Name, job.Name), string.Empty, string.Empty);
                     return true;
                 }
                 catch
@@ -120,7 +120,7 @@
         {
             var jobs = new List<JenkinsJob>();
 
-            string responseText = this.jenkinsConnection.Get(string.Format("/view/{0}/api/xml?tree=jobs[name]&pretty=true", this.name));
+            string responseText = this.jenkinsConnection.Get(string.Format("/view/{0}/api/xml?tree=jobs[name]", this.Name));
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(responseText);
 

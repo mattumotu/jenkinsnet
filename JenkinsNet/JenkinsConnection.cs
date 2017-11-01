@@ -6,7 +6,7 @@
     /// <summary>
     /// A connection to a jenkins server
     /// </summary>
-    public class JenkinsConnection
+    public class JenkinsConnection : JenkinsNet.IJenkinsConnection
     {
         /// <summary>
         /// Holds the jenkins server url
