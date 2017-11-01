@@ -8,7 +8,19 @@
     [TestClass]
     public class JenkinsViewTests
     {
-        private JenkinsConnection jenkinsConnection = new JenkinsConnection(ConfigurationManager.AppSettings["JenkinsURL"]);
+        private IJenkinsConnection jenkinsConnection;
+
+        public JenkinsViewTests()
+        {
+            if (bool.Parse(ConfigurationManager.AppSettings["UseMockConnection"] ?? "false"))
+            {
+                this.jenkinsConnection = new MockConnection();
+            }
+            else
+            {
+                this.jenkinsConnection = new JenkinsConnection(ConfigurationManager.AppSettings["JenkinsURL"]);
+            }
+        }
 
         [TestMethod]
         public void JenkinsView_Create_Exists_Delete()
@@ -32,7 +44,7 @@
         public void JenkinsView_Create_AddJob_Contains_RemoveJob_Delete()
         {
             var newView = new JenkinsView(this.jenkinsConnection, "hudson.model.ListView", "JenkinsView_Create_AddJob_RemoveJob_Delete");
-            var job = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "LimsRestAPI-clone");
+            var job = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "job 1");
 
             Assert.IsTrue(newView.Create());
 

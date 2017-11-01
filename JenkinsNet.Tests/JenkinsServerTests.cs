@@ -12,7 +12,6 @@
 
         public JenkinsServerTests()
         {
-            this.jenkinsConnection = new MockConnection();
             if (bool.Parse(ConfigurationManager.AppSettings["UseMockConnection"] ?? "false"))
             {
                 this.jenkinsConnection = new MockConnection();

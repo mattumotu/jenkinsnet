@@ -62,18 +62,48 @@
                 return this.GetAllViewsXML();
             }
 
-            Match match = Regex.Match(command, @"/view/([A-Za-z0-9 ]+)/api/xml\?tree=jobs\[name\]$", RegexOptions.IgnoreCase);
+            Match match = Regex.Match(command, @"/view/(.+)/api/xml\?tree=jobs\[name\]$", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 return this.GetJobsForViewXML(match.Groups[1].Value);
             }
 
-            throw new NotImplementedException();
+            match = Regex.Match(command, @"/viewExistsCheck\?value=(.+)$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.ViewExists(match.Groups[1].Value);
+            }
+
+            throw new NotImplementedException(command);
         }
 
         public string Post(string command, string contentType, string postData)
         {
-            throw new NotImplementedException();
+            Match match = Regex.Match(command, @"/createView\?name=(.+)&mode=(.+)$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.CreateView(match.Groups[1].Value, match.Groups[2].Value);
+            }
+
+            match = Regex.Match(command, @"/view/(.+)/doDelete$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.DeleteView(match.Groups[1].Value);
+            }
+
+            match = Regex.Match(command, @"/view/(.+)/addJobToView\?name=(.+)", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.ViewAddJob(match.Groups[1].Value, match.Groups[2].Value);
+            }
+
+            match = Regex.Match(command, @"/view/(.+)/removeJobFromView\?name=(.+)", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.ViewRemoveJob(match.Groups[1].Value, match.Groups[2].Value);
+            }
+
+            throw new NotImplementedException(command);
         }
 
         private string GetAllViewsXML()
@@ -124,6 +154,60 @@
             }
 
             return xml.OuterXml;
+        }
+
+        private string ViewExists(string viewName)
+        {
+            if (this.views.Keys.Contains(viewName))
+            {
+                return "error";
+            }
+            return "";
+        }
+
+        private string CreateView(string name, string className)
+        {
+            if (!this.views.Keys.Contains(name))
+            {
+                this.views.Add(name, new JenkinsView(this, className, name));
+                this.viewJobs.Add(name, new List<string>());
+                return string.Empty;
+            }
+            throw new Exception("Create View");
+        }
+
+        private string DeleteView(string viewName)
+        {
+            if (this.views.Keys.Contains(viewName))
+            {
+                this.viewJobs.Remove(viewName);
+                this.views.Remove(viewName);
+                return true.ToString();
+            }
+            return false.ToString();
+        }
+
+        private string ViewAddJob(string viewName, string jobName)
+        {
+            if (this.views.Keys.Contains(viewName) && this.jobs.Keys.Contains(jobName))
+            {
+                if (!this.viewJobs[viewName].Contains(jobName))
+                {
+                    this.viewJobs[viewName].Add(jobName);
+                }
+                return string.Empty;
+            }
+            throw new Exception("View Add Job");
+        }
+
+        private string ViewRemoveJob(string viewName, string jobName)
+        {
+            if (this.views.Keys.Contains(viewName) && this.jobs.Keys.Contains(jobName) && this.viewJobs[viewName].Contains(jobName))
+            {
+                this.viewJobs[viewName].Remove(jobName);
+                return string.Empty;
+            }
+            throw new Exception("View Remove Job");
         }
     }
 }
