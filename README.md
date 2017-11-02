@@ -1,5 +1,8 @@
 ![JenkinsNET Logo](https://raw.githubusercontent.com/mattumotu/jenkinsnet/master/jenkinsnet.png "JenkinsNET Logo") 
 
+[![Build status](https://ci.appveyor.com/api/projects/status/61ei2xqdhwf1i8ap/branch/master?svg=true)](https://ci.appveyor.com/project/mattumotu/jenkinsnet/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/mattumotu/jenkinsnet/badge.svg?branch=master)](https://coveralls.io/github/mattumotu/jenkinsnet?branch=master)
+
 Allows for easy and simple C# interaction with Jenkins.
 
 ## Basics
