@@ -12,47 +12,46 @@
         private Dictionary<string, JenkinsView> views;
         private Dictionary<string, JenkinsJob> jobs;
         private Dictionary<string, List<string>> viewJobs;
+        private Dictionary<string, string> jobConfigs;
 
         public MockConnection()
         {
-            // TODO: Add a numch of fake jobs
+            // Init
             this.jobs = new Dictionary<string, JenkinsJob>();
-            this.jobs.Add("job 1", new JenkinsJob(this, "hudson.model.FreeStyleProject", "job 1"));
-            this.jobs.Add("job 2", new JenkinsJob(this, "hudson.model.FreeStyleProject", "job 2"));
-            this.jobs.Add("job 3", new JenkinsJob(this, "hudson.model.FreeStyleProject", "job 3"));
-            this.jobs.Add("job 4", new JenkinsJob(this, "hudson.model.FreeStyleProject", "job 4"));
-            this.jobs.Add("job 5", new JenkinsJob(this, "hudson.model.FreeStyleProject", "job 5"));
-            this.jobs.Add("job 6", new JenkinsJob(this, "hudson.model.FreeStyleProject", "job 6"));
-
+            this.jobConfigs = new Dictionary<string, string>();
             this.views = new Dictionary<string, JenkinsView>();
             this.viewJobs = new Dictionary<string, List<string>>();
 
-            // Add all view containing all jobs;
-            this.views.Add("all", new JenkinsView(this, "hudson.model.AllView", "all"));
-            this.viewJobs.Add("all", new List<string>());
-            this.viewJobs["all"].Add("job 1");
-            this.viewJobs["all"].Add("job 2");
-            this.viewJobs["all"].Add("job 3");
-            this.viewJobs["all"].Add("job 4");
-            this.viewJobs["all"].Add("job 5");
-            this.viewJobs["all"].Add("job 6");
+            // Create some fake jobs
+            this.CreateJob("job 1", "hudson.model.FreeStyleProject");
+            this.CreateJob("job 2", "hudson.model.FreeStyleProject");
+            this.CreateJob("job 3", "hudson.model.FreeStyleProject");
+            this.CreateJob("job 4", "hudson.model.FreeStyleProject");
+            this.CreateJob("job 5", "hudson.model.FreeStyleProject");
+            this.CreateJob("job 6", "hudson.model.FreeStyleProject");
 
-            // Add a bunch of views containing some jobs
-            this.views.Add("view 1", new JenkinsView(this, "hudson.model.ListView", "view 1"));
-            this.viewJobs.Add("view 1", new List<string>());
-            this.viewJobs["view 1"].Add("job 1");
-            this.viewJobs["view 1"].Add("job 2");
-            this.viewJobs["view 1"].Add("job 3");
+            // Create some fake views
+            this.CreateView("all", "hudson.model.AllView");
+            this.CreateView("view 1", "hudson.model.ListView");
+            this.CreateView("view 2", "hudson.model.ListView");
+            this.CreateView("view 3", "hudson.model.ListView");
 
-            this.views.Add("view 2", new JenkinsView(this, "hudson.model.ListView", "view 2"));
-            this.viewJobs.Add("view 2", new List<string>());
-            this.viewJobs["view 2"].Add("job 4");
-            this.viewJobs["view 2"].Add("job 5");
+            // Add all jobs to all view
+            foreach (var jobName in this.jobs.Keys.ToList())
+            {
+                this.ViewAddJob("all", jobName);
+            }
 
-            this.views.Add("view 3", new JenkinsView(this, "hudson.model.ListView", "view 3"));
-            this.viewJobs.Add("view 3", new List<string>());
-            this.viewJobs["view 3"].Add("job 5");
-            this.viewJobs["view 3"].Add("job 6");
+            // Add some jobs to views
+            this.ViewAddJob("view 1", "job 1");
+            this.ViewAddJob("view 1", "job 2");
+            this.ViewAddJob("view 1", "job 3");
+
+            this.ViewAddJob("view 2", "job 4");
+            this.ViewAddJob("view 2", "job 5");
+
+            this.ViewAddJob("view 3", "job 5");
+            this.ViewAddJob("view 3", "job 6");
         }
 
         public string Get(string command)
@@ -72,6 +71,18 @@
             if (match.Success)
             {
                 return this.ViewExists(match.Groups[1].Value);
+            }
+
+            match = Regex.Match(command, @"/checkJobName\?value=(.+)$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.JobExists(match.Groups[1].Value);
+            }
+
+            match = Regex.Match(command, @"/job/(.+)/config.xml$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.GetJobConfig(match.Groups[1].Value);
             }
 
             throw new NotImplementedException(command);
@@ -103,8 +114,28 @@
                 return this.ViewRemoveJob(match.Groups[1].Value, match.Groups[2].Value);
             }
 
+            match = Regex.Match(command, @"/createItem\?name=(.+)&mode=(.+)$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.CreateJob(match.Groups[1].Value, match.Groups[2].Value);
+            }
+
+            match = Regex.Match(command, @"/job/(.+)/doDelete$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.DeleteJob(match.Groups[1].Value);
+            }
+
+            match = Regex.Match(command, @"/job/(.+)/config.xml$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return this.SetJobConfig(match.Groups[1].Value, postData);
+            }
+
             throw new NotImplementedException(command);
         }
+
+        #region "Get"
 
         private string GetAllViewsXML()
         {
@@ -165,6 +196,28 @@
             return "";
         }
 
+        private string JobExists(string jobName)
+        {
+            if (this.jobs.Keys.Contains(jobName))
+            {
+                return "error";
+            }
+            return "";
+        }
+
+        private string GetJobConfig(string jobName)
+        {
+            if (this.jobConfigs.Keys.Contains(jobName))
+            {
+                return this.jobConfigs[jobName];
+            }
+            throw new NotImplementedException();
+        }
+
+        #endregion "Get"
+
+        #region "Post"
+
         private string CreateView(string name, string className)
         {
             if (!this.views.Keys.Contains(name))
@@ -209,5 +262,45 @@
             }
             throw new Exception("View Remove Job");
         }
+
+        private string CreateJob(string name, string className)
+        {
+            if (!this.jobs.Keys.Contains(name))
+            {
+                this.jobs.Add(name, new JenkinsJob(this, className, name));
+                this.jobConfigs.Add(name, "<project></project>");
+                return string.Empty;
+            }
+            throw new Exception("Create Job");
+        }
+
+        private string DeleteJob(string jobName)
+        {
+            if (this.jobs.Keys.Contains(jobName))
+            {
+                foreach (var jobList in this.viewJobs.Values.ToList())
+                {
+                    if (jobList.Contains(jobName))
+                    {
+                        jobList.Remove(jobName);
+                    }
+                }
+                this.jobs.Remove(jobName);
+                return true.ToString();
+            }
+            return false.ToString();
+        }
+
+        private string SetJobConfig(string jobName, string xml)
+        {
+            if (this.jobConfigs.Keys.Contains(jobName))
+            {
+                this.jobConfigs[jobName] = xml;
+                return string.Empty;
+            }
+            throw new NotImplementedException();
+        }
+
+        #endregion "Post"
     }
 }
