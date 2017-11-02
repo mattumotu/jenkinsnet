@@ -15,7 +15,8 @@ before_build:
   - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
  
 build:
-  - verbosity: minimal
+  project: JenkinsNet.sln
+  verbosity: minimal
 
 after_test:
     - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNet*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"./JenksinNet.Tests/bin/Debug/JenkinsNet.Tests.dll /noshadow" -output:opencoverCoverage.xml
