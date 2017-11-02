@@ -6,6 +6,10 @@
  -build:
  -  verbosity: minimal
 
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: sHCrjCAFwuQbrjHStRTs00Yy828yMqFt1pompnav1411nvS998OJ8f4R4JQ9Rlx5
+    
 before_build:
 - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
 - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
