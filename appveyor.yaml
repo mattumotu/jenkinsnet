@@ -11,17 +11,17 @@ environment:
 configuration: Debug
 
 before_build:
- - ps: Write-Host 'This is PowerShell before_build'
 - nuget restore JenkinsNet.sln
-  - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
-  - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
- 
+- nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
+- nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
+- ps: Write-Host 'This is PowerShell before_build'
+
 build:
- - ps: Write-Host 'This is PowerShell build'
   project: JenkinsNet.sln
   verbosity: minimal
+- ps: Write-Host 'This is PowerShell build'
 
 test_script:
+  - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNet*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"./JenksinNet.Tests/bin/Debug/JenkinsNet.Tests.dll /noshadow" -output:opencoverCoverage.xml
+  - ps: .\tools\coveralls.net.0.412\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 - ps: Write-Host 'This is PowerShell test_script'
-    - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNet*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"./JenksinNet.Tests/bin/Debug/JenkinsNet.Tests.dll /noshadow" -output:opencoverCoverage.xml
-    - ps: .\tools\coveralls.net.0.412\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
