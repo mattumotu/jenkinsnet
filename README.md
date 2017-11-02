@@ -86,3 +86,17 @@ if(existingView.Contains(existingJob))
   throw new exception("job still on view - remove failed");
 }
 ```
+
+## Getting and Setting config.xml
+
+Getting the config xml for a job
+```cs
+JenkinsJob existingJob = Jobs[0];
+string configXml = existingJob.Config;
+```
+
+and setting it
+```cs
+JenkinsJob existingJob = Jobs[0];
+existingJob.Config = xml
+```
