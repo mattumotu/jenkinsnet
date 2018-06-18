@@ -12,13 +12,16 @@
 
         public JenkinsServerTests()
         {
-            if (bool.Parse(ConfigurationManager.AppSettings["UseMockConnection"] ?? "false"))
+            if (bool.Parse(ConfigurationManager.AppSettings["UseFakeConnection"] ?? "false"))
             {
-                this.jenkinsConnection = new MockConnection();
+                this.jenkinsConnection = new FakeConnection();
             }
             else
             {
-                this.jenkinsConnection = new JenkinsConnection(ConfigurationManager.AppSettings["JenkinsURL"]);
+                this.jenkinsConnection = new JenkinsConnection(
+                    ConfigurationManager.AppSettings["JenkinsURL"],
+                    ConfigurationManager.AppSettings["JenkinsUser"],
+                    ConfigurationManager.AppSettings["JenkinsApiToken"]);
             }
         }
 
