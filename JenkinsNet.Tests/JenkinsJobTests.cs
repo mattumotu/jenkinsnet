@@ -12,7 +12,7 @@
 
         public JenkinsJobTests()
         {
-            if (bool.Parse(ConfigurationManager.AppSettings["UseMockConnection"] ?? "false"))
+            if (bool.Parse(ConfigurationManager.AppSettings["UseFakeConnection"] ?? "false"))
             {
                 this.jenkinsConnection = new FakeConnection();
             }
