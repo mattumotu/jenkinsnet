@@ -7,14 +7,14 @@
     using System.Text.RegularExpressions;
     using System.Xml;
 
-    public class MockConnection : IJenkinsConnection
+    public class FakeConnection : IJenkinsConnection
     {
         private Dictionary<string, JenkinsView> views;
         private Dictionary<string, JenkinsJob> jobs;
         private Dictionary<string, List<string>> viewJobs;
         private Dictionary<string, string> jobConfigs;
 
-        public MockConnection()
+        public FakeConnection()
         {
             // Init
             this.jobs = new Dictionary<string, JenkinsJob>();
@@ -39,19 +39,19 @@
             // Add all jobs to all view
             foreach (var jobName in this.jobs.Keys.ToList())
             {
-                this.ViewAddJob("all", jobName);
+                this.AddJobToView("all", jobName);
             }
 
             // Add some jobs to views
-            this.ViewAddJob("view 1", "job 1");
-            this.ViewAddJob("view 1", "job 2");
-            this.ViewAddJob("view 1", "job 3");
+            this.AddJobToView("view 1", "job 1");
+            this.AddJobToView("view 1", "job 2");
+            this.AddJobToView("view 1", "job 3");
 
-            this.ViewAddJob("view 2", "job 4");
-            this.ViewAddJob("view 2", "job 5");
+            this.AddJobToView("view 2", "job 4");
+            this.AddJobToView("view 2", "job 5");
 
-            this.ViewAddJob("view 3", "job 5");
-            this.ViewAddJob("view 3", "job 6");
+            this.AddJobToView("view 3", "job 5");
+            this.AddJobToView("view 3", "job 6");
         }
 
         public string Get(string command)
@@ -105,13 +105,13 @@
             match = Regex.Match(command, @"/view/(.+)/addJobToView\?name=(.+)", RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                return this.ViewAddJob(match.Groups[1].Value, match.Groups[2].Value);
+                return this.AddJobToView(match.Groups[1].Value, match.Groups[2].Value);
             }
 
             match = Regex.Match(command, @"/view/(.+)/removeJobFromView\?name=(.+)", RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                return this.ViewRemoveJob(match.Groups[1].Value, match.Groups[2].Value);
+                return this.RemoveJobFromView(match.Groups[1].Value, match.Groups[2].Value);
             }
 
             match = Regex.Match(command, @"/createItem\?name=(.+)&mode=(.+)$", RegexOptions.IgnoreCase);
@@ -240,7 +240,7 @@
             return false.ToString();
         }
 
-        private string ViewAddJob(string viewName, string jobName)
+        private string AddJobToView(string viewName, string jobName)
         {
             if (this.views.Keys.Contains(viewName) && this.jobs.Keys.Contains(jobName))
             {
@@ -253,7 +253,7 @@
             throw new Exception("View Add Job");
         }
 
-        private string ViewRemoveJob(string viewName, string jobName)
+        private string RemoveJobFromView(string viewName, string jobName)
         {
             if (this.views.Keys.Contains(viewName) && this.jobs.Keys.Contains(jobName) && this.viewJobs[viewName].Contains(jobName))
             {
