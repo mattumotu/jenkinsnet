@@ -12,9 +12,13 @@ First you need a connection to a jenkins server, just pass it your jenkins insta
 JenkinsConnection myConn = new JenkinsConnection("myjenkins");
 ```
 
+If Jenkins is secuired then you will have to provide a username and api token:
+```cs
+JenkinsConnection myConn = new JenkinsConnection("myjenkins", "username", "apitoken");
+```
+
 We can get a list of Views and Jobs from a JenkinsServer
 ```cs
-JenkinsConnection myConn = new JenkinsConnection("myjenkins");
 var myJenkins = new JenkinsServer(myConn);
 List<JenkinsView> views = myJenkins.Views();
 List<JenkinsJob> jobs = myJenkins.Jobs();
