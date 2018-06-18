@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="JenkinsJobTests.cs" />
     <Compile Include="JenkinsServerTests.cs" />
-    <Compile Include="MockConnection.cs" />
+    <Compile Include="FakeConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JenkinsViewTests.cs" />
   </ItemGroup>
