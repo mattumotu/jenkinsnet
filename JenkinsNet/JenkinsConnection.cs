@@ -14,12 +14,35 @@
         private string url;
 
         /// <summary>
+        /// Holds the jenkins username
+        /// </summary>
+        private string username;
+
+        /// <summary>
+        /// Holds the jenkins api token
+        /// </summary>
+        private string apiToken;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.
         /// </summary>
         /// <param name="url">the target jenkins server url</param>
         public JenkinsConnection(string url)
+            : this(url, null, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.
+        /// </summary>
+        /// <param name="url">the target jenkins server url</param>
+        /// <param name="username">the jenkins username</param>
+        /// <param name="apiToken">the jenkins api token</param>
+        public JenkinsConnection(string url, string username, string apiToken)
         {
             this.url = url;
+            this.username = username;
+            this.apiToken = apiToken;
         }
 
         /// <summary>
@@ -33,6 +56,14 @@
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url + command);
             httpWebRequest.ContentType = "text/json";
             httpWebRequest.Method = "GET";
+
+            if (!string.IsNullOrEmpty(this.username))
+            {
+                string mergedCredentials = string.Format("{0}:{1}", this.username, this.apiToken);
+                byte[] byteCredentials = System.Text.UTF8Encoding.UTF8.GetBytes(mergedCredentials);
+                string base64Credentials = System.Convert.ToBase64String(byteCredentials);
+                httpWebRequest.Headers.Add("Authorization", "Basic " + base64Credentials);
+            }
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -53,6 +84,14 @@
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url + command);
             httpWebRequest.ContentType = contentType;
             httpWebRequest.Method = "POST";
+
+            if (!string.IsNullOrEmpty(this.username))
+            {
+                string mergedCredentials = string.Format("{0}:{1}", this.username, this.apiToken);
+                byte[] byteCredentials = System.Text.UTF8Encoding.UTF8.GetBytes(mergedCredentials);
+                string base64Credentials = System.Convert.ToBase64String(byteCredentials);
+                httpWebRequest.Headers.Add("Authorization", "Basic " + base64Credentials);
+            }
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
