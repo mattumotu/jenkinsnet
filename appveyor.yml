@@ -8,16 +8,32 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: sHCrjCAFwuQbrjHStRTs00Yy828yMqFt1pompnav1411nvS998OJ8f4R4JQ9Rlx5
 
-configuration: Debug
+configuration: Release
 
-before_build:
-- nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
-- nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
+init:
+  - ps: |
+      function updateVersionFromTag(){
+        $tag=$env:APPVEYOR_REPO_TAG_NAME
+        write-host "Tag is '$tag'"
+        if($tag) {
+          $posAfterVchar = $tag.LastIndexOf("v") + 1
+          $versionLength = $tag.Length - $posAfterVchar
+          $gitVersion=$tag.substring($posAfterVchar, $versionLength)
+          $newVersion="$gitVersion"
+          write-host "Update appveyor build version to:$newVersion"
+          $env:appveyor_build_version="$newVersion"
+          appveyor UpdateBuild -Version "$newVersion"
+        }
+      }
+      updateVersionFromTag
 
 build:
-  project: JenkinsNet.sln
+  project: src/JenkinsNet.sln
   verbosity: minimal
+  publish_nuget: true
 
 test_script:
-  - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNet*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:JenkinsNet.Tests/bin/Debug/JenkinsNet.Tests.dll" -output:opencoverCoverage.xml
+  - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
+  - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNet*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:JenkinsNet.Tests/bin/$env:CONFIGURATION/JenkinsNet.Tests.dll" -output:opencoverCoverage.xml
+  - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
   - ps: .\tools\coveralls.net.0.412\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
