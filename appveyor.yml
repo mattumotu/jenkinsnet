@@ -6,7 +6,7 @@ branches:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: sHCrjCAFwuQbrjHStRTs00Yy828yMqFt1pompnav1411nvS998OJ8f4R4JQ9Rlx5
+    secure: +OixzKZfOfR4PYNCBqr19GNNgA1DnDbf04D2ARDOnNvhYpo04U/WP7SmdmdHddrs
 
 configuration: Release
 
