@@ -6,9 +6,9 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/mattumotu/relativedate/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/mattumotu/relativedate/</projectUrl>
-    <iconUrl>https://github.com/mattumotu/relativedate/blob/master/relativedate.png</iconUrl>
+    <licenseUrl>https://github.com/mattumotu/jenkinsnetclient/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mattumotu/jenkinsnetclient/</projectUrl>
+    <iconUrl>https://github.com/mattumotu/jenkinsnetclient/blob/master/jenkinsnetclient.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <copyright>Copyright 2018</copyright>
