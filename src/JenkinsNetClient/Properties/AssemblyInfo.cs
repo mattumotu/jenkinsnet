@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JenkinsNet")]
+[assembly: AssemblyTitle("JenkinsNetClient")]
 [assembly: AssemblyDescription("a light weight, object-oriented .Net SDK for interacting with Jenkins")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("Matt Phillips")]
-[assembly: AssemblyProduct("JenkinsNet")]
+[assembly: AssemblyProduct("JenkinsNetClient")]
 [assembly: AssemblyCopyright("Copyright © 2017 Matt Phillips")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

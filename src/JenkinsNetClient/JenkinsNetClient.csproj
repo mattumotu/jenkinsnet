@@ -8,8 +8,8 @@
     <ProjectGuid>{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JenkinsNet</RootNamespace>
-    <AssemblyName>JenkinsNet</AssemblyName>
+    <RootNamespace>JenkinsNetClient</RootNamespace>
+    <AssemblyName>JenkinsNetClient</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
