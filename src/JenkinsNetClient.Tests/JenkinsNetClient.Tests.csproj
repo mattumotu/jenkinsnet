@@ -54,7 +54,7 @@
     <Compile Include="JenkinsViewTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JenkinsNet\JenkinsNet.csproj">
+    <ProjectReference Include="..\JenkinsNetClient\JenkinsNetClient.csproj">
       <Project>{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}</Project>
       <Name>JenkinsNet</Name>
     </ProjectReference>

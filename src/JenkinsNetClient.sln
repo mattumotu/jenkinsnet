@@ -1,24 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNet", "JenkinsNet\JenkinsNet.csproj", "{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNetClient", "JenkinsNetClient\JenkinsNetClient.csproj", "{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNet.Tests", "JenkinsNet.Tests\JenkinsNet.Tests.csproj", "{27C9CF59-DC95-4594-AC16-45A60D5DACF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNetClient.Tests", "JenkinsNetClient.Tests\JenkinsNetClient.Tests.csproj", "{27C9CF59-DC95-4594-AC16-45A60D5DACF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58DC1742-A32F-4F5D-9E93-96D342C25B0A}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\_config.yml = ..\_config.yml
 		..\appveyor.yml = ..\appveyor.yml
-		..\jenkinsnet.png = ..\jenkinsnet.png
-		JenkinsNet.vsmdi = JenkinsNet.vsmdi
+		JenkinsNetClient\JenkinsNetClient.nuspec = JenkinsNetClient\JenkinsNetClient.nuspec
+		..\jenkinsnetclient.png = ..\jenkinsnetclient.png
+		JenkinsNetClient.vsmdi = JenkinsNetClient.vsmdi
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = JenkinsNet.vsmdi
+		CategoryFile = JenkinsNetClient.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
