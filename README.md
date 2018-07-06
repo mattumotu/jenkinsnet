@@ -6,7 +6,15 @@
 
 Allows for easy and simple C# interaction with Jenkins.
 
-## Basics
+## Installation
+
+Via NuGet
+
+    PM> Install-Package JenkinsNetClient
+    
+## Usage
+
+### Basics
 
 First you need a connection to a jenkins server, just pass it your jenkins instance's url.
 ```cs
@@ -25,7 +33,7 @@ List<JenkinsView> views = myJenkins.Views();
 List<JenkinsJob> jobs = myJenkins.Jobs();
 ```
 
-## Playing with views
+### Playing with views
 We can easily create a new view ...
 ```cs
 var newView = new JenkinsView(myConn, "hudson.model.ListView", "Name of my new view");
@@ -50,7 +58,7 @@ if(existingView.Exists())
 }
 ```
 
-## Playing with Jobs
+### Playing with Jobs
 ```cs
 var newJob = new JenkinsJob(myConn, "hudson.model.FreeStyleProject", "name of new job");
 if(newJob.Exists()) 
@@ -68,7 +76,8 @@ if(newJob.Exists())
   throw new exception("job still exists on jenkins after call to delete");
 }           
 ```
-## Jobs and Views 
+
+### Jobs and Views 
 
 Adding an existing job to a view ...
 ```cs
@@ -92,7 +101,7 @@ if(existingView.Contains(existingJob))
 }
 ```
 
-## Getting and Setting config.xml
+### Getting and Setting config.xml
 
 Getting the config xml for a job
 ```cs
