@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/mattumotu/jenkinsnetclient/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mattumotu/jenkinsnetclient/</projectUrl>
-    <iconUrl>https://github.com/mattumotu/jenkinsnetclient/blob/master/jenkinsnetclient.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/mattumotu/jenkinsnetclient/master/jenkinsnetclient.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <copyright>Copyright 2018</copyright>
