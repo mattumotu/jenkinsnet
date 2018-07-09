@@ -1,8 +1,8 @@
-﻿namespace JenkinsNet.Tests
+﻿namespace JenkinsNetClient.Tests
 {
     using System.Configuration;
     using System.Xml;
-    using JenkinsNet;
+    using JenkinsNetClient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

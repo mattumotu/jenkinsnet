@@ -1,12 +1,13 @@
-﻿namespace JenkinsNet
+﻿namespace JenkinsNetClient
 {
     using System.IO;
     using System.Net;
+    using JenkinsNetClient.Request;
 
     /// <summary>
     /// A connection to a jenkins server
     /// </summary>
-    public class JenkinsConnection : JenkinsNet.IJenkinsConnection
+    public class JenkinsConnection : JenkinsNetClient.IJenkinsConnection
     {
         /// <summary>
         /// Holds the jenkins server url
@@ -53,23 +54,13 @@
         /// <returns>the response from the jenkins server</returns>
         public string Get(string command)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url + command);
-            httpWebRequest.ContentType = "text/json";
-            httpWebRequest.Method = "GET";
-
-            if (!string.IsNullOrEmpty(this.username))
-            {
-                string mergedCredentials = string.Format("{0}:{1}", this.username, this.apiToken);
-                byte[] byteCredentials = System.Text.UTF8Encoding.UTF8.GetBytes(mergedCredentials);
-                string base64Credentials = System.Convert.ToBase64String(byteCredentials);
-                httpWebRequest.Headers.Add("Authorization", "Basic " + base64Credentials);
-            }
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                return streamReader.ReadToEnd();
-            }
+            return this.callRequest(
+                new AuthorisedRequest(
+                    new GetRequest(
+                        new JsonRequest(
+                            new HTTPRequest(this.url, command))),
+                    this.username,
+                    this.apiToken));
         }
 
         /// <summary>
@@ -81,27 +72,21 @@
         /// <returns>the response from the jenkins server</returns>
         public string Post(string command, string contentType, string postData)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(this.url + command);
-            httpWebRequest.ContentType = contentType;
-            httpWebRequest.Method = "POST";
+            return this.callRequest(
+                new ContentTypeRequest(
+                    new AuthorisedRequest(
+                        new PostRequest(
+                            new HTTPRequest(this.url, command),
+                            postData),
+                        this.username,
+                        this.apiToken),
+                    contentType));
+        }
 
-            if (!string.IsNullOrEmpty(this.username))
-            {
-                string mergedCredentials = string.Format("{0}:{1}", this.username, this.apiToken);
-                byte[] byteCredentials = System.Text.UTF8Encoding.UTF8.GetBytes(mergedCredentials);
-                string base64Credentials = System.Convert.ToBase64String(byteCredentials);
-                httpWebRequest.Headers.Add("Authorization", "Basic " + base64Credentials);
-            }
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                streamWriter.Write(postData);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        private string callRequest(IRequest request)
+        {
+            var response = request.Build().GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
             {
                 return streamReader.ReadToEnd();
             }

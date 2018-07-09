@@ -1,4 +1,4 @@
-﻿namespace JenkinsNet
+﻿namespace JenkinsNetClient
 {
     using System;
 
