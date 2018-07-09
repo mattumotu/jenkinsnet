@@ -16,6 +16,7 @@
         public System.Net.HttpWebRequest Build()
         {
             var req = this.origin.Build();
+            req.Method = "POST";
 
             if (!string.IsNullOrEmpty(this.postData))
             {

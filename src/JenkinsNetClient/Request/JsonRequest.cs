@@ -12,6 +12,7 @@
         public System.Net.HttpWebRequest Build()
         {
             var req = this.origin.Build();
+            //TODO: should this be application/json? need to test with Jenkins
             req.ContentType = "text/json";
             return req;
         }
