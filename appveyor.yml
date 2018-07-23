@@ -26,6 +26,7 @@ init:
         }
       }
       updateVersionFromTag
+- choco install "msbuild-sonarqube-runner" -y
 
 assembly_info:
   patch: true
@@ -33,6 +34,9 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+
+before_build:
+  - SonarScanner.MSBuild.exe begin /k:"mattumotu_jenkinsnetclient" /d:sonar.organization="mattumotu-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.login=1be563f0aa4b72f0c4d8f15decc2d530fa03150f" /d:sonar.cs.opencover.reportsPaths="opencoverCoverage.xml" /d:sonar.cs.xunit.reportsPaths="xunitTestResult.xml"
 
 build:
   project: src/JenkinsNetClient.sln
@@ -45,6 +49,9 @@ test_script:
   - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
   - ps: .\tools\coveralls.net.0.412\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 
+after_test:
+  - SonarScanner.MSBuild.exe end /d:sonar.login="1be563f0aa4b72f0c4d8f15decc2d530fa03150f"
+  
 deploy:
   - provider: NuGet
     api_key:
