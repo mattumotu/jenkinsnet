@@ -26,7 +26,7 @@ init:
         }
       }
       updateVersionFromTag
-- choco install "msbuild-sonarqube-runner" -y
+  - choco install "msbuild-sonarqube-runner" -y
 
 assembly_info:
   patch: true
