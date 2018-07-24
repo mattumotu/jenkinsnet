@@ -1,11 +1,13 @@
+# JenkinsNet
+
 ![JenkinsNET Logo](https://raw.githubusercontent.com/mattumotu/jenkinsnetclient/master/jenkinsnetclient.png "JenkinsNETClient Logo") 
+
+Allows for easy and simple C# interaction with Jenkins.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/i0a30nv83layh93d/branch/master?svg=true)](https://ci.appveyor.com/project/mattumotu/jenkinsnetclient/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/mattumotu/jenkinsnetclient/badge.svg?branch=master)](https://coveralls.io/github/mattumotu/jenkinsnetclient?branch=master)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=mattumotu_jenkinsnetclient&metric=alert_status)](https://sonarcloud.io/dashboard?id=mattumotu_jenkinsnetclient)
 [![NuGet](https://img.shields.io/nuget/v/jenkinsnetclient.svg)](https://www.nuget.org/packages/JenkinsNetClient/)
-
-Allows for easy and simple C# interaction with Jenkins.
 
 ## Installation
 
