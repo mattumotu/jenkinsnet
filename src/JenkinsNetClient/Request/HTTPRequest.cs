@@ -2,12 +2,12 @@
 {
     using System.Net;
 
-    public class HTTPRequest : IRequest
+    public class HttpRequest : IRequest
     {
         private readonly string url;
         private readonly string command;
 
-        public HTTPRequest(string url, string command)
+        public HttpRequest(string url, string command)
         {
             this.url = url;
             this.command = command;

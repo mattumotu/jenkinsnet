@@ -16,7 +16,7 @@
         public void Authorised_Request_Test()
         {
             //Assign
-            IRequest baseRequest = new HTTPRequest("http://test.com/", "command");
+            IRequest baseRequest = new HttpRequest("http://test.com/", "command");
             IRequest target;
             HttpWebRequest actual;
 
@@ -32,7 +32,7 @@
         public void ContentType_Request_Test()
         {
             //Assign
-            IRequest baseRequest = new HTTPRequest("http://test.com/", "command");
+            IRequest baseRequest = new HttpRequest("http://test.com/", "command");
             string contentType = "contentType";
             IRequest target;
             HttpWebRequest actual;
@@ -49,7 +49,7 @@
         public void Get_Request_Test()
         {
             //Assign
-            IRequest baseRequest = new HTTPRequest("http://test.com/", "command");
+            IRequest baseRequest = new HttpRequest("http://test.com/", "command");
             IRequest target;
             HttpWebRequest actual;
 
@@ -71,7 +71,7 @@
             HttpWebRequest actual;
 
             //Act
-            target = new HTTPRequest(url, command);
+            target = new HttpRequest(url, command);
             actual = target.Build();
 
             //Assert
@@ -82,7 +82,7 @@
         public void Json_Request_Test()
         {
             //Assign
-            IRequest baseRequest = new HTTPRequest("http://test.com/", "command");
+            IRequest baseRequest = new HttpRequest("http://test.com/", "command");
             IRequest target;
             HttpWebRequest actual;
 
@@ -99,7 +99,7 @@
         public void Post_Request_Test()
         {
             //Assign
-            IRequest baseRequest = new HTTPRequest("http://test.com/", "command");
+            IRequest baseRequest = new HttpRequest("http://test.com/", "command");
             IRequest target;
             string postData = "postData";
             HttpWebRequest actual;
@@ -117,7 +117,7 @@
         public void Xml_Request_Test()
         {
             //Assign
-            IRequest baseRequest = new HTTPRequest("http://test.com/", "command");
+            IRequest baseRequest = new HttpRequest("http://test.com/", "command");
             IRequest target;
             HttpWebRequest actual;
 

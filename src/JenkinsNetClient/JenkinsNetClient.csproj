@@ -44,7 +44,7 @@
     <Compile Include="Request\PostRequest.cs" />
     <Compile Include="Request\AuthorisedRequest.cs" />
     <Compile Include="Request\GetRequest.cs" />
-    <Compile Include="Request\HTTPRequest.cs" />
+    <Compile Include="Request\HttpRequest.cs" />
     <Compile Include="IJenkinsConnection.cs" />
     <Compile Include="Request\IRequest.cs" />
     <Compile Include="JenkinsView.cs" />

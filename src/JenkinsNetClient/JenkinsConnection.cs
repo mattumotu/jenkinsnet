@@ -58,7 +58,7 @@
                 new AuthorisedRequest(
                     new GetRequest(
                         new JsonRequest(
-                            new HTTPRequest(this.url, command))),
+                            new HttpRequest(this.url, command))),
                     this.username,
                     this.apiToken));
         }
@@ -76,7 +76,7 @@
                 new ContentTypeRequest(
                     new AuthorisedRequest(
                         new PostRequest(
-                            new HTTPRequest(this.url, command),
+                            new HttpRequest(this.url, command),
                             postData),
                         this.username,
                         this.apiToken),
