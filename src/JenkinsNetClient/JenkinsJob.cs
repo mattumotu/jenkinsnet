@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a jenkins job, or project.
     /// </summary>
-    public class JenkinsJob : IEquatable<JenkinsJob>
+    public sealed class JenkinsJob : IEquatable<JenkinsJob>
     {
         /// <summary>
         /// Holds the jenkins connection
