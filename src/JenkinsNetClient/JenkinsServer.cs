@@ -5,7 +5,7 @@
 
     public class JenkinsServer
     {
-        private IJenkinsConnection jenkinsConnection;
+        private readonly IJenkinsConnection jenkinsConnection;
 
         public JenkinsServer(IJenkinsConnection jenkinsConnection)
         {

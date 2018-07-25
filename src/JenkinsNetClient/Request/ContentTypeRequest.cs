@@ -2,8 +2,8 @@
 {
     public class ContentTypeRequest : IRequest
     {
-        private IRequest origin;
-        private string contentType;
+        private readonly IRequest origin;
+        private readonly string contentType;
 
         public ContentTypeRequest(IRequest request, string contentType)
         {

@@ -2,9 +2,9 @@
 {
     public class AuthorisedRequest : IRequest
     {
-        private IRequest origin;
-        private string username;
-        private string apiToken;
+        private readonly IRequest origin;
+        private readonly string username;
+        private readonly string apiToken;
 
         public AuthorisedRequest(IRequest request, string username, string apiToken)
         {

@@ -12,17 +12,17 @@
         /// <summary>
         /// Holds the jenkins server url
         /// </summary>
-        private string url;
+        private readonly string url;
 
         /// <summary>
         /// Holds the jenkins username
         /// </summary>
-        private string username;
+        private readonly string username;
 
         /// <summary>
         /// Holds the jenkins api token
         /// </summary>
-        private string apiToken;
+        private readonly string apiToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.

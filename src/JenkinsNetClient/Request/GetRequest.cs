@@ -2,7 +2,7 @@
 {
     public class GetRequest : IRequest
     {
-        private IRequest origin;
+        private readonly IRequest origin;
 
         public GetRequest(IRequest request)
         {

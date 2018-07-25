@@ -4,8 +4,8 @@
 
     public class PostRequest : IRequest
     {
-        private IRequest origin;
-        private string postData;
+        private readonly IRequest origin;
+        private readonly string postData;
 
         public PostRequest(IRequest request, string postData)
         {

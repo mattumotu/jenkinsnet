@@ -2,7 +2,7 @@
 {
     public class JsonRequest : IRequest
     {
-        private IRequest origin;
+        private readonly IRequest origin;
 
         public JsonRequest(IRequest request)
         {

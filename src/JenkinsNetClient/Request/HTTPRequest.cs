@@ -4,8 +4,8 @@
 
     public class HTTPRequest : IRequest
     {
-        private string url;
-        private string command;
+        private readonly string url;
+        private readonly string command;
 
         public HTTPRequest(string url, string command)
         {

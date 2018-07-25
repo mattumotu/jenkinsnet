@@ -2,7 +2,7 @@
 {
     public class XmlRequest : IRequest
     {
-        private IRequest origin;
+        private readonly IRequest origin;
 
         public XmlRequest(IRequest request)
         {

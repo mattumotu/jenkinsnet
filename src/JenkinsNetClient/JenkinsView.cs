@@ -11,7 +11,7 @@
         /// <summary>
         /// Holds the jenkins connection
         /// </summary>
-        private IJenkinsConnection jenkinsConnection;
+        private readonly IJenkinsConnection jenkinsConnection;
 
         public JenkinsView(IJenkinsConnection jenkinsConnection, string className, string name)
         {
