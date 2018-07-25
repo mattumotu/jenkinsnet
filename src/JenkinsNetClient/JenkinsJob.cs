@@ -10,7 +10,7 @@
         /// <summary>
         /// Holds the jenkins connection
         /// </summary>
-        private IJenkinsConnection jenkinsConnection;
+        private readonly IJenkinsConnection jenkinsConnection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsJob" /> class.
