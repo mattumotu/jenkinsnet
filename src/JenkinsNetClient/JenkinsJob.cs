@@ -13,25 +13,25 @@
         private readonly IJenkinsConnection jenkinsConnection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JenkinsJob" /> class.
+        /// Initializes a new instance of the <see cref="JenkinsJob"/> class.
         /// </summary>
         /// <param name="jenkinsConnection">the jenkins connection</param>
-        /// <param name="className">the class</param>
+        /// <param name="model">the model (e.g. hudson.model.FreeStyleProject)</param>
         /// <param name="name">the name</param>
-        public JenkinsJob(IJenkinsConnection jenkinsConnection, string className, string name)
+        public JenkinsJob(IJenkinsConnection jenkinsConnection, string model, string name)
         {
             this.jenkinsConnection = jenkinsConnection;
-            this.Class = className;
+            this.Model = model;
             this.Name = name;
         }
 
         /// <summary>
-        /// Holds the class (e.g. project type, such as: hudson.model.FreeStyleProject)
+        /// Gets the Model
         /// </summary>
-        public string Class { get; private set; }
+        public string Model { get; private set; }
 
         /// <summary>
-        /// Gets the name
+        /// Gets the Name
         /// </summary>
         public string Name { get; private set; }
 
@@ -63,9 +63,9 @@
                 try
                 {
                     this.jenkinsConnection.Post(
-                        string.Format("/createItem?name={0}&mode={1}", this.Name, this.Class),
+                        string.Format("/createItem?name={0}&mode={1}", this.Name, this.Model),
                         "application/x-www-form-urlencoded",
-                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Class));
+                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Model));
                     return true;
                 }
                 catch
@@ -81,7 +81,7 @@
         /// Delete this job on jenkins, if it exists
         /// </summary>
         /// <param name="failIfNotExists">flag to indicate return value if job doesn't exist</param>
-        /// <returns>true if job deleted, false if deletion failed. If job doesn't exists return !<c>failIfNotExists</c></returns>
+        /// <returns>true if job deleted, false if deletion failed. If job doesn't exist return !<c>failIfNotExists</c></returns>
         public bool Delete(bool failIfNotExists = false)
         {
             if (this.Exists())

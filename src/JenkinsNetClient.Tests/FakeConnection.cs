@@ -147,7 +147,7 @@
                 XmlElement viewElement = xml.CreateElement("view");
 
                 XmlAttribute ClassAttribute = xml.CreateAttribute("_class");
-                ClassAttribute.Value = view.Class;
+                ClassAttribute.Value = view.Model;
                 viewElement.Attributes.Append(ClassAttribute);
 
                 XmlElement nameElement = xml.CreateElement("name");
@@ -173,7 +173,7 @@
                 XmlElement jobElement = xml.CreateElement("job");
 
                 XmlAttribute ClassAttribute = xml.CreateAttribute("_class");
-                ClassAttribute.Value = job.Class;
+                ClassAttribute.Value = job.Model;
                 jobElement.Attributes.Append(ClassAttribute);
 
                 XmlElement nameElement = xml.CreateElement("name");
