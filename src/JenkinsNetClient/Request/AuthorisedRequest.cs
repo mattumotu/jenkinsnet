@@ -2,8 +2,19 @@
 {
     public class AuthorisedRequest : IRequest
     {
+        /// <summary>
+        /// Holds the origin IRequest to be decorated
+        /// </summary>
         private readonly IRequest origin;
+
+        /// <summary>
+        /// Holds the username
+        /// </summary>
         private readonly string username;
+
+        /// <summary>
+        /// Holds the api token
+        /// </summary>
         private readonly string apiToken;
 
         public AuthorisedRequest(IRequest request, string username, string apiToken)
@@ -13,6 +24,10 @@
             this.apiToken = apiToken;
         }
 
+        /// <summary>
+        /// Build a populated HttpWebRequest
+        /// </summary>
+        /// <returns>The <see cref="HttpWebRequest"/></returns>
         public System.Net.HttpWebRequest Build()
         {
             var req = this.origin.Build();

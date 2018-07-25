@@ -4,7 +4,14 @@
 
     public class PostRequest : IRequest
     {
+        /// <summary>
+        /// Holds the origin IRequest to be decorated
+        /// </summary>
         private readonly IRequest origin;
+
+        /// <summary>
+        /// Holds the post data
+        /// </summary>
         private readonly string postData;
 
         public PostRequest(IRequest request, string postData)
@@ -13,6 +20,10 @@
             this.postData = postData;
         }
 
+        /// <summary>
+        /// Build a populated HttpWebRequest
+        /// </summary>
+        /// <returns>The <see cref="HttpWebRequest"/></returns>
         public System.Net.HttpWebRequest Build()
         {
             var req = this.origin.Build();
@@ -22,7 +33,7 @@
             {
                 using (var streamWriter = new StreamWriter(req.GetRequestStream()))
                 {
-                    streamWriter.Write(postData);
+                    streamWriter.Write(this.postData);
                     streamWriter.Flush();
                     streamWriter.Close();
                 }

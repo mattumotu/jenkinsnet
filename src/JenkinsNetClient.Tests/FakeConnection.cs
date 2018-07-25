@@ -134,6 +134,22 @@
             throw new NotImplementedException(command);
         }
 
+        public bool TryPost(string command, string contentType, string postData)
+        {
+            try
+            {
+                this.Post(
+                    command,
+                    contentType,
+                    postData);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #region "Get"
 
         private string GetAllViewsXML()
