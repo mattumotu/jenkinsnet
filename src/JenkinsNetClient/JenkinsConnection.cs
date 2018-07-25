@@ -54,7 +54,7 @@
         /// <returns>the response from the jenkins server</returns>
         public string Get(string command)
         {
-            return this.callRequest(
+            return this.CallRequest(
                 new AuthorisedRequest(
                     new GetRequest(
                         new JsonRequest(
@@ -72,7 +72,7 @@
         /// <returns>the response from the jenkins server</returns>
         public string Post(string command, string contentType, string postData)
         {
-            return this.callRequest(
+            return this.CallRequest(
                 new ContentTypeRequest(
                     new AuthorisedRequest(
                         new PostRequest(
@@ -83,7 +83,30 @@
                     contentType));
         }
 
-        private string callRequest(IRequest request)
+        /// <summary>
+        /// Make a POST request to jenkins, return True/False depending on success
+        /// </summary>
+        /// <param name="command">the uri to POST (appended to server address)</param>
+        /// <param name="contentType">the content type</param>
+        /// <param name="postData">the data to be posted</param>
+        /// <returns>a flag indicating whether the request was successfully POSTed</returns>
+        public bool TryPost(string command, string contentType, string postData)
+        {
+            try
+            {
+                this.Post(
+                    command,
+                    contentType,
+                    postData);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private string CallRequest(IRequest request)
         {
             var response = request.Build().GetResponse();
             using (var streamReader = new StreamReader(response.GetResponseStream()))

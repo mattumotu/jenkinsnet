@@ -23,5 +23,14 @@
         /// <param name="postData">the data to be posted</param>
         /// <returns>the response from the jenkins server</returns>
         string Post(string command, string contentType, string postData);
+
+        /// <summary>
+        /// Make a POST request to jenkins, return True/False depending on success
+        /// </summary>
+        /// <param name="command">the uri to POST (appended to server address)</param>
+        /// <param name="contentType">the content type</param>
+        /// <param name="postData">the data to be posted</param>
+        /// <returns>a flag indicating whether the request was successfully POSTed</returns>
+        bool TryPost(string command, string contentType, string postData);
     }
 }

@@ -27,13 +27,13 @@
         {
             var job = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "JenkinsJob_Create_Exists_Delete");
 
-            Assert.IsFalse(job.Exists());
+            Assert.IsFalse(job.Exists);
 
             Assert.IsTrue(job.Create());
             Assert.IsTrue(job.Create());
             Assert.IsFalse(job.Create(true));
 
-            Assert.IsTrue(job.Exists());
+            Assert.IsTrue(job.Exists);
 
             Assert.IsTrue(job.Delete());
             Assert.IsTrue(job.Delete());

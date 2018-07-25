@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JenkinsItem.cs" />
     <Compile Include="Request\ContentTypeRequest.cs" />
     <Compile Include="Request\PostRequest.cs" />
     <Compile Include="Request\AuthorisedRequest.cs" />

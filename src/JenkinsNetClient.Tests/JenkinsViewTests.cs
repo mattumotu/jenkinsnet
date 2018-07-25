@@ -31,13 +31,13 @@
             Assert.IsTrue(newView.Create());
             Assert.IsFalse(newView.Create(true));
 
-            Assert.IsTrue(newView.Exists());
+            Assert.IsTrue(newView.Exists);
 
             Assert.IsTrue(newView.Delete());
             Assert.IsTrue(newView.Delete());
             Assert.IsFalse(newView.Delete(true));
 
-            Assert.IsFalse(newView.Exists());
+            Assert.IsFalse(newView.Exists);
         }
 
         [TestMethod]

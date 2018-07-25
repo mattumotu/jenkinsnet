@@ -5,13 +5,8 @@
     /// <summary>
     /// Represents a jenkins job, or project.
     /// </summary>
-    public sealed class JenkinsJob : IEquatable<JenkinsJob>
+    public sealed class JenkinsJob : JenkinsItem, IEquatable<JenkinsJob>
     {
-        /// <summary>
-        /// Holds the jenkins connection
-        /// </summary>
-        private readonly IJenkinsConnection jenkinsConnection;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsJob"/> class.
         /// </summary>
@@ -19,21 +14,9 @@
         /// <param name="model">the model (e.g. hudson.model.FreeStyleProject)</param>
         /// <param name="name">the name</param>
         public JenkinsJob(IJenkinsConnection jenkinsConnection, string model, string name)
+            : base(jenkinsConnection, model, name)
         {
-            this.jenkinsConnection = jenkinsConnection;
-            this.Model = model;
-            this.Name = name;
         }
-
-        /// <summary>
-        /// Gets the Model
-        /// </summary>
-        public string Model { get; private set; }
-
-        /// <summary>
-        /// Gets the Name
-        /// </summary>
-        public string Name { get; private set; }
 
         /// <summary>
         /// Gets or sets the Config XML on jenkins server
@@ -42,12 +25,24 @@
         {
             get
             {
-                return this.jenkinsConnection.Get(string.Format("/job/{0}/config.xml", this.Name));
+                return this.JenkinsConnection.Get(string.Format("/job/{0}/config.xml", this.Name));
             }
 
             set
             {
-                this.jenkinsConnection.Post(string.Format("/job/{0}/config.xml", this.Name), "text/xml", value);
+                this.JenkinsConnection.Post(string.Format("/job/{0}/config.xml", this.Name), "text/xml", value);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this view exists on jenkins
+        /// </summary>
+        public override bool Exists
+        {
+            get
+            {
+                var result = this.JenkinsConnection.Get(string.Format("/checkJobName?value={0}", this.Name));
+                return result.Contains("error");
             }
         }
 
@@ -58,20 +53,12 @@
         /// <returns>true if job created, false if not created. If job exists returns !<c>failIfExists</c></returns>
         public bool Create(bool failIfExists = false)
         {
-            if (!this.Exists())
+            if (!this.Exists)
             {
-                try
-                {
-                    this.jenkinsConnection.Post(
-                        string.Format("/createItem?name={0}&mode={1}", this.Name, this.Model),
-                        "application/x-www-form-urlencoded",
-                        string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Model));
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                return this.JenkinsConnection.TryPost(
+                    string.Format("/createItem?name={0}&mode={1}", this.Name, this.Model),
+                    "application/x-www-form-urlencoded",
+                    string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Model));
             }
 
             return !failIfExists;
@@ -84,30 +71,15 @@
         /// <returns>true if job deleted, false if deletion failed. If job doesn't exist return !<c>failIfNotExists</c></returns>
         public bool Delete(bool failIfNotExists = false)
         {
-            if (this.Exists())
+            if (this.Exists)
             {
-                try
-                {
-                    this.jenkinsConnection.Post(string.Format("/job/{0}/doDelete", this.Name), "application/x-www-form-urlencoded", string.Empty);
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                return this.JenkinsConnection.TryPost(
+                    string.Format("/job/{0}/doDelete", this.Name),
+                    "application/x-www-form-urlencoded",
+                    string.Empty);
             }
 
             return !failIfNotExists;
-        }
-
-        /// <summary>
-        /// Check if this job exists on jenkins
-        /// </summary>
-        /// <returns>true if job exists; otherwise false</returns>
-        public bool Exists()
-        {
-            var result = this.jenkinsConnection.Get(string.Format("/checkJobName?value={0}", this.Name));
-            return result.Contains("error");
         }
 
         /// <summary>
