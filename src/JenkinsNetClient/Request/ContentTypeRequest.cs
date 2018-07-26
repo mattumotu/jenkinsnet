@@ -1,5 +1,8 @@
 ﻿namespace JenkinsNetClient.Request
 {
+    /// <summary>
+    /// Defines the <see cref="ContentTypeRequest" />
+    /// </summary>
     public class ContentTypeRequest : IRequest
     {
         /// <summary>
@@ -12,6 +15,11 @@
         /// </summary>
         private readonly string contentType;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentTypeRequest"/> class.
+        /// </summary>
+        /// <param name="request">The request<see cref="IRequest"/></param>
+        /// <param name="contentType">The contentType<see cref="string"/></param>
         public ContentTypeRequest(IRequest request, string contentType)
         {
             this.origin = request;

@@ -1,5 +1,8 @@
 ﻿namespace JenkinsNetClient.Request
 {
+    /// <summary>
+    /// Defines the <see cref="JsonRequest" />
+    /// </summary>
     public class JsonRequest : IRequest
     {
         /// <summary>
@@ -7,6 +10,10 @@
         /// </summary>
         private readonly IRequest origin;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonRequest"/> class.
+        /// </summary>
+        /// <param name="request">The request<see cref="IRequest"/></param>
         public JsonRequest(IRequest request)
         {
             this.origin = request;
@@ -19,9 +26,7 @@
         public System.Net.HttpWebRequest Build()
         {
             var req = this.origin.Build();
-
-            // TODO: should this be application/json? need to test with Jenkins
-            req.ContentType = "text/json";
+            req.ContentType = "application/json";
             return req;
         }
     }

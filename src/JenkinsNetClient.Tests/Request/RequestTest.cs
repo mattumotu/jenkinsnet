@@ -91,8 +91,7 @@
             actual = target.Build();
 
             //Assert
-            //TOOD: should this be application/json? need to test with Jenkins
-            Assert.AreEqual("text/json", actual.ContentType);
+            Assert.AreEqual("application/json", actual.ContentType);
         }
 
         [TestMethod]

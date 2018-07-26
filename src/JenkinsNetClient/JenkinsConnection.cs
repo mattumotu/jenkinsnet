@@ -20,7 +20,7 @@
         private readonly string username;
 
         /// <summary>
-        /// Holds the jenkins api token
+        /// Holds the jenkins API token
         /// </summary>
         private readonly string apiToken;
 
@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="url">the target jenkins server url</param>
         /// <param name="username">the jenkins username</param>
-        /// <param name="apiToken">the jenkins api token</param>
+        /// <param name="apiToken">the jenkins API token</param>
         public JenkinsConnection(string url, string username, string apiToken)
         {
             this.url = url;

@@ -1,5 +1,8 @@
 ﻿namespace JenkinsNetClient.Request
 {
+    /// <summary>
+    /// Defines the <see cref="GetRequest" />
+    /// </summary>
     public class GetRequest : IRequest
     {
         /// <summary>
@@ -7,6 +10,10 @@
         /// </summary>
         private readonly IRequest origin;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetRequest"/> class.
+        /// </summary>
+        /// <param name="request">The request<see cref="IRequest"/></param>
         public GetRequest(IRequest request)
         {
             this.origin = request;

@@ -2,6 +2,9 @@
 {
     using System.IO;
 
+    /// <summary>
+    /// Defines the <see cref="PostRequest" />
+    /// </summary>
     public class PostRequest : IRequest
     {
         /// <summary>
@@ -14,6 +17,11 @@
         /// </summary>
         private readonly string postData;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostRequest"/> class.
+        /// </summary>
+        /// <param name="request">The request<see cref="IRequest"/></param>
+        /// <param name="postData">The postData<see cref="string"/></param>
         public PostRequest(IRequest request, string postData)
         {
             this.origin = request;

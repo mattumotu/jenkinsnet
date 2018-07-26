@@ -2,6 +2,9 @@
 {
     using System.Net;
 
+    /// <summary>
+    /// Defines the <see cref="HttpRequest" />
+    /// </summary>
     public class HttpRequest : IRequest
     {
         /// <summary>
@@ -14,6 +17,11 @@
         /// </summary>
         private readonly string command;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequest"/> class.
+        /// </summary>
+        /// <param name="url">The url<see cref="string"/></param>
+        /// <param name="command">The command<see cref="string"/></param>
         public HttpRequest(string url, string command)
         {
             this.url = url;

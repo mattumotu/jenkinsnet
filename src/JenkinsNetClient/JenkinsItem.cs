@@ -10,8 +10,19 @@
         /// </summary>
         protected readonly IJenkinsConnection JenkinsConnection;
 
+        /// <summary>
+        /// Defines the existsCommand
+        /// </summary>
         private readonly string existsCommand;
+
+        /// <summary>
+        /// Defines the createCommand
+        /// </summary>
         private readonly string createCommand;
+
+        /// <summary>
+        /// Defines the deleteCommand
+        /// </summary>
         private readonly string deleteCommand;
 
         /// <summary>
@@ -20,7 +31,10 @@
         /// <param name="jenkinsConnection">The jenkinsConnection<see cref="IJenkinsConnection"/></param>
         /// <param name="model">The model<see cref="string"/></param>
         /// <param name="name">The name<see cref="string"/></param>
-        public JenkinsItem(
+        /// <param name="existsCommand">The command for exist check<see cref="string"/></param>
+        /// <param name="createCommand">The command for create<see cref="string"/></param>
+        /// <param name="deleteCommand">The command for delete<see cref="string"/></param>
+        protected JenkinsItem(
             IJenkinsConnection jenkinsConnection,
             string model,
             string name,
@@ -93,15 +107,5 @@
 
             return !failIfNotExists;
         }
-
-        //public bool ExistsTryPost(bool failIfExists, string command, string contentType, string postData)
-        //{
-        //    if (!this.Exists)
-        //    {
-        //        return this.JenkinsConnection.TryPost(command, contentType, postData);
-        //    }
-
-        //    return !failIfExists;
-        //}
     }
 }
