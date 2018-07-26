@@ -14,7 +14,13 @@
         /// <param name="model">the model (e.g. hudson.model.FreeStyleProject)</param>
         /// <param name="name">the name</param>
         public JenkinsJob(IJenkinsConnection jenkinsConnection, string model, string name)
-            : base(jenkinsConnection, model, name)
+            : base(
+                  jenkinsConnection,
+                  model,
+                  name,
+                  string.Format("/checkJobName?value={0}", name),
+                  string.Format("/createItem?name={0}&mode={1}", name, model),
+                  string.Format("/job/{0}/doDelete", name))
         {
         }
 
@@ -32,54 +38,6 @@
             {
                 this.JenkinsConnection.Post(string.Format("/job/{0}/config.xml", this.Name), "text/xml", value);
             }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this view exists on jenkins
-        /// </summary>
-        public override bool Exists
-        {
-            get
-            {
-                var result = this.JenkinsConnection.Get(string.Format("/checkJobName?value={0}", this.Name));
-                return result.Contains("error");
-            }
-        }
-
-        /// <summary>
-        /// Create this job on jenkins, if it doesn't exist
-        /// </summary>
-        /// <param name="failIfExists">flag to indicate return value if job already exists</param>
-        /// <returns>true if job created, false if not created. If job exists returns !<c>failIfExists</c></returns>
-        public bool Create(bool failIfExists = false)
-        {
-            if (!this.Exists)
-            {
-                return this.JenkinsConnection.TryPost(
-                    string.Format("/createItem?name={0}&mode={1}", this.Name, this.Model),
-                    "application/x-www-form-urlencoded",
-                    string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Model));
-            }
-
-            return !failIfExists;
-        }
-
-        /// <summary>
-        /// Delete this job on jenkins, if it exists
-        /// </summary>
-        /// <param name="failIfNotExists">flag to indicate return value if job doesn't exist</param>
-        /// <returns>true if job deleted, false if deletion failed. If job doesn't exist return !<c>failIfNotExists</c></returns>
-        public bool Delete(bool failIfNotExists = false)
-        {
-            if (this.Exists)
-            {
-                return this.JenkinsConnection.TryPost(
-                    string.Format("/job/{0}/doDelete", this.Name),
-                    "application/x-www-form-urlencoded",
-                    string.Empty);
-            }
-
-            return !failIfNotExists;
         }
 
         /// <summary>

@@ -15,56 +15,14 @@
         /// <param name="model">The model<see cref="string"/> (e.g. hudson.model.ListView)</param>
         /// <param name="name">The name<see cref="string"/></param>
         public JenkinsView(IJenkinsConnection jenkinsConnection, string model, string name)
-            : base(jenkinsConnection, model, name)
+            : base(
+                  jenkinsConnection,
+                  model,
+                  name,
+                  string.Format("/viewExistsCheck?value={0}", name),
+                  string.Format("/createView?name={0}&mode={1}", name, model),
+                  string.Format("/view/{0}/doDelete", name))
         {
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this view exists on jenkins
-        /// </summary>
-        public override bool Exists
-        {
-            get
-            {
-                var result = this.JenkinsConnection.Get(string.Format("/viewExistsCheck?value={0}", this.Name));
-                return result.Contains("error");
-            }
-        }
-
-        /// <summary>
-        /// Create this view on jenkins, if it doesn't exist
-        /// </summary>
-        /// <param name="failIfExists">flag<see cref="bool"/> to indicate return value if view already exists</param>
-        /// <returns>true<see cref="bool"/>if view created, false<see cref="bool"/> if not created. If view exists returns !<c>failIfExists</c><see cref="bool"/></returns>
-        public bool Create(bool failIfExists = false)
-        {
-            if (!this.Exists)
-            {
-                return this.JenkinsConnection.TryPost(
-                    string.Format("/createView?name={0}&mode={1}", this.Name, this.Model),
-                    "application/x-www-form-urlencoded",
-                    string.Format("json={{'name': '{0}', 'mode': '{1}'}}", this.Name, this.Model));
-            }
-
-            return !failIfExists;
-        }
-
-        /// <summary>
-        /// Delete this view on jenkins, if it exists
-        /// </summary>
-        /// <param name="failIfNotExists">flag<see cref="bool"/> to indicate return value if job doesn't exist</param>
-        /// <returns>true<see cref="bool"/> if view deleted, false<see cref="bool"/> if not deleted. If view doesn't exist returns !<c>failIfExists</c><see cref="bool"/></returns>
-        public bool Delete(bool failIfNotExists = false)
-        {
-            if (this.Exists)
-            {
-                return this.JenkinsConnection.TryPost(
-                    string.Format("/view/{0}/doDelete", this.Name),
-                    "application/x-www-form-urlencoded",
-                    string.Empty);
-            }
-
-            return !failIfNotExists;
         }
 
         /// <summary>
