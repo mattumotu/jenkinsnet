@@ -43,7 +43,6 @@
                 {
                     streamWriter.Write(this.postData);
                     streamWriter.Flush();
-                    streamWriter.Close();
                 }
             }
 

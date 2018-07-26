@@ -8,7 +8,7 @@
     [TestClass]
     public class JenkinsJobTests
     {
-        private IJenkinsConnection jenkinsConnection;
+        private readonly IJenkinsConnection jenkinsConnection;
 
         public JenkinsJobTests()
         {
@@ -68,6 +68,56 @@
             Assert.IsNotNull(xmlDoc.SelectSingleNode("./project/description"));
 
             Assert.IsTrue(job.Delete());
+        }
+
+        [TestMethod]
+        public void JenkinsJob_Duplicate_Is_Equal()
+        {
+            // Arrange
+            JenkinsJob origin;
+            JenkinsJob other;
+
+            // Act
+            origin = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "SameJob");
+            other = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "SameJob");
+
+            // Assert
+            Assert.AreEqual(origin, other);
+            Assert.IsTrue(origin.Equals(other));
+            Assert.AreEqual(origin.GetHashCode(), other.GetHashCode());
+        }
+
+        [TestMethod]
+        public void JenkinsJob_Null_Not_Equal()
+        {
+            // Arrange
+            JenkinsJob origin;
+            JenkinsJob other;
+
+            // Act
+            origin = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "SameJob");
+            other = null;
+
+            // Assert
+            Assert.AreNotEqual(origin, other);
+            Assert.IsFalse(origin.Equals(other));
+        }
+
+        [TestMethod]
+        public void JenkinsJob_Different_Not_Equal()
+        {
+            // Arrange
+            JenkinsJob origin;
+            JenkinsJob other;
+
+            // Act
+            origin = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "SameJob");
+            other = new JenkinsJob(this.jenkinsConnection, "hudson.model.FreeStyleProject", "DifferentJob");
+
+            // Assert
+            Assert.AreNotEqual(origin, other);
+            Assert.IsFalse(origin.Equals(other));
+            Assert.AreNotEqual(origin.GetHashCode(), other.GetHashCode());
         }
     }
 }
