@@ -55,6 +55,20 @@
         /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.
         /// </summary>
         /// <param name="url">the target jenkins server url</param>
+        /// <param name="username">the jenkins username</param>
+        /// <param name="apiToken">the jenkins API token</param>
+        public JenkinsConnection(string url, string username, string apiToken)
+        {
+            this.url = url;
+            this.username = username;
+            this.apiToken = apiToken;
+            this.crumb = crumb;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.
+        /// </summary>
+        /// <param name="url">the target jenkins server url</param>
         /// <param name="crumb">the jenkins crumb</param>
         public JenkinsConnection(string url, string crumb)
         {

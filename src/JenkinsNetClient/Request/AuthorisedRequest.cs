@@ -54,7 +54,7 @@
                 string base64Credentials = System.Convert.ToBase64String(byteCredentials);
                 req.Headers.Add("Authorization", "Basic " + base64Credentials);
             }
-            else if (!string.IsNullOrEmpty(this.crumb))
+            if (!string.IsNullOrEmpty(this.crumb))
             {
                 req.Headers.Add("Jenkins-Crumb", crumb);
             }
