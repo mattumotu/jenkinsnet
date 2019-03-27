@@ -26,6 +26,11 @@
         private readonly string deleteCommand;
 
         /// <summary>
+        /// Defines the buildCommand
+        /// </summary>
+        private readonly string buildCommand;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsItem"/> class.
         /// </summary>
         /// <param name="jenkinsConnection">The jenkinsConnection<see cref="IJenkinsConnection"/></param>
@@ -34,13 +39,15 @@
         /// <param name="existsCommand">The command for exist check<see cref="string"/></param>
         /// <param name="createCommand">The command for create<see cref="string"/></param>
         /// <param name="deleteCommand">The command for delete<see cref="string"/></param>
+        /// <param name="buildcommand">The command for build<see cref="string"/></param>
         protected JenkinsItem(
             IJenkinsConnection jenkinsConnection,
             string model,
             string name,
             string existsCommand,
             string createCommand,
-            string deleteCommand)
+            string deleteCommand,
+            string buildCommand)
         {
             this.JenkinsConnection = jenkinsConnection;
             this.Model = model;
@@ -48,6 +55,7 @@
             this.existsCommand = existsCommand;
             this.createCommand = createCommand;
             this.deleteCommand = deleteCommand;
+            this.buildCommand = buildCommand;
         }
 
         /// <summary>
@@ -101,6 +109,24 @@
             {
                 return this.JenkinsConnection.TryPost(
                     this.deleteCommand,
+                    "application/x-www-form-urlencoded",
+                    string.Empty);
+            }
+
+            return !failIfNotExists;
+        }
+
+        /// <summary>
+        /// Starts a build for this job on jenkins, if it exists
+        /// </summary>
+        /// <param name="failIfNotExists">flag to indicate return value if job doesn't exist</param>
+        /// <returns>true if job has executed, false if execution failed. If job doesn't exist return !<c>failIfNotExists</c></returns>
+        public bool Build(bool failIfNotExists = false)
+        {
+            if (this.Exists)
+            {
+                return this.JenkinsConnection.TryPost(
+                    this.buildCommand,
                     "application/x-www-form-urlencoded",
                     string.Empty);
             }

@@ -21,7 +21,8 @@
                   name,
                   string.Format("/viewExistsCheck?value={0}", name),
                   string.Format("/createView?name={0}&mode={1}", name, model),
-                  string.Format("/view/{0}/doDelete", name))
+                  string.Format("/view/{0}/doDelete", name),
+                  string.Format("/job/{0}/build", name))
         {
         }
 
