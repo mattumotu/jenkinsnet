@@ -31,6 +31,19 @@
         /// <param name="request">The request<see cref="IRequest"/></param>
         /// <param name="username">The username<see cref="string"/></param>
         /// <param name="apiToken">The API token<see cref="string"/></param>
+        public AuthorisedRequest(IRequest request, string username, string apiToken)
+        {
+            this.origin = request;
+            this.username = username;
+            this.apiToken = apiToken;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorisedRequest"/> class.
+        /// </summary>
+        /// <param name="request">The request<see cref="IRequest"/></param>
+        /// <param name="username">The username<see cref="string"/></param>
+        /// <param name="apiToken">The API token<see cref="string"/></param>
         public AuthorisedRequest(IRequest request, string username, string apiToken, string crumb)
         {
             this.origin = request;

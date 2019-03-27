@@ -57,7 +57,7 @@
         /// <param name="url">the target jenkins server url</param>
         /// <param name="username">the jenkins username</param>
         /// <param name="apiToken">the jenkins API token</param>
-        public JenkinsConnection(string url, string username, string apiToken)
+        public JenkinsConnection(string url, string username, string apiToken, string crumb)
         {
             this.url = url;
             this.username = username;
