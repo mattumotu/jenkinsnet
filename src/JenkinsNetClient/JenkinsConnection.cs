@@ -25,6 +25,11 @@
         private readonly string apiToken;
 
         /// <summary>
+        /// Holds the jenkins crumb
+        /// </summary>
+        private readonly string crumb;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.
         /// </summary>
         /// <param name="url">the target jenkins server url</param>
@@ -47,6 +52,17 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="JenkinsConnection" /> class.
+        /// </summary>
+        /// <param name="url">the target jenkins server url</param>
+        /// <param name="crumb">the jenkins crumb</param>
+        public JenkinsConnection(string url, string crumb)
+        {
+            this.url = url;
+            this.crumb = crumb;
+        }
+
+        /// <summary>
         /// Make a GET request to jenkins.
         /// </summary>
         /// <remarks>Content Type is <c>text/json</c></remarks>
@@ -60,7 +76,8 @@
                         new JsonRequest(
                             new HttpRequest(this.url, command))),
                     this.username,
-                    this.apiToken));
+                    this.apiToken,
+                    this.crumb));
         }
 
         /// <summary>
@@ -79,7 +96,8 @@
                             new HttpRequest(this.url, command),
                             postData),
                         this.username,
-                        this.apiToken),
+                        this.apiToken,
+                        this.crumb),
                     contentType));
         }
 
