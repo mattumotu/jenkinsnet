@@ -1,4 +1,6 @@
-﻿namespace JenkinsNetClient
+﻿using System.Collections.Generic;
+
+namespace JenkinsNetClient
 {
     /// <summary>
     /// Defines the <see cref="JenkinsItem" />
@@ -121,12 +123,20 @@
         /// </summary>
         /// <param name="failIfNotExists">flag to indicate return value if job doesn't exist</param>
         /// <returns>true if job has executed, false if execution failed. If job doesn't exist return !<c>failIfNotExists</c></returns>
-        public bool Build(bool failIfNotExists = false)
+        public bool BuildWithParameters(Dictionary<string, string> parameters,  bool failIfNotExists = false)
         {
             if (this.Exists)
             {
+                string queryString = "?";
+                foreach (KeyValuePair<string, string> parameter in parameters)
+                {
+                    if (queryString != "?")
+                        queryString += "&";
+                    queryString += System.Uri.EscapeDataString(parameter.Key);
+                    queryString += System.Uri.EscapeDataString(parameter.Value);
+                }
                 return this.JenkinsConnection.TryPost(
-                    this.buildCommand,
+                    this.buildCommand + queryString,
                     "application/x-www-form-urlencoded",
                     string.Empty);
             }
