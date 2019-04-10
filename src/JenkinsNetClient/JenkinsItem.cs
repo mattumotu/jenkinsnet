@@ -132,8 +132,7 @@ namespace JenkinsNetClient
                 {
                     if (queryString != "?")
                         queryString += "&";
-                    queryString += System.Uri.EscapeDataString(parameter.Key);
-                    queryString += System.Uri.EscapeDataString(parameter.Value);
+                    queryString += $"{System.Uri.EscapeDataString(parameter.Key)}={System.Uri.EscapeDataString(parameter.Value)}";
                 }
                 return this.JenkinsConnection.TryPost(
                     this.buildCommand + queryString,
