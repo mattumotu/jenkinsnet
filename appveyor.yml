@@ -2,7 +2,7 @@ version: 0.1.0.{build}
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: Jz+ol1X6ETuMXGKPavl+woCU2YwZT8Xf+jEm75yreFl1MkedGcW1y31CLCTPXJMr
+    secure: Gpyjl6uluqtSTc7KautAmsltd24bqebS3TeZhZwJakm505RpIDlm/FeiNemaHqVf
 
 configuration: Release
 
