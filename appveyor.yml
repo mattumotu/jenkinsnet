@@ -8,6 +8,8 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: o3eU3GkT+/WJvy8kmju2A2ZfZHLy3yBMIKA3v8ITPiizl3Pjk1YqxG0STPy2DcLT
 
+image: Visual Studio 2017
+
 configuration: Release
 
 init:
