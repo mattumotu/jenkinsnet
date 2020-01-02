@@ -38,6 +38,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
+  - nuget restore src\JenkinsNetClient.sln
   - SonarScanner.MSBuild.exe begin /k:"mattumotu_jenkinsnetclient" /o:"mattumotu-github" /d:sonar.host.url="https://sonarcloud.io" /d:"sonar.login=1be563f0aa4b72f0c4d8f15decc2d530fa03150f" /d:sonar.cs.opencover.reportsPaths="opencoverCoverage.xml" /d:sonar.cs.vstest.reportsPaths="mstestTestResult.xml"
 
 build:
