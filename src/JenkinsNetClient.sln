@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNetClient", "JenkinsNetClient\JenkinsNetClient.csproj", "{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNetClient.Tests", "JenkinsNetClient.Tests\JenkinsNetClient.Tests.csproj", "{27C9CF59-DC95-4594-AC16-45A60D5DACF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsNetClient", "JenkinsNetClient\JenkinsNetClient.csproj", "{CF1FCED2-479A-4170-9E28-A7717FF3E666}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58DC1742-A32F-4F5D-9E93-96D342C25B0A}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,14 +26,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1707AEF1-2BC7-46B9-AC63-14FD64826B6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{27C9CF59-DC95-4594-AC16-45A60D5DACF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27C9CF59-DC95-4594-AC16-45A60D5DACF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27C9CF59-DC95-4594-AC16-45A60D5DACF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27C9CF59-DC95-4594-AC16-45A60D5DACF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF1FCED2-479A-4170-9E28-A7717FF3E666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF1FCED2-479A-4170-9E28-A7717FF3E666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF1FCED2-479A-4170-9E28-A7717FF3E666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF1FCED2-479A-4170-9E28-A7717FF3E666}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
