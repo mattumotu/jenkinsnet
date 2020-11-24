@@ -28,7 +28,7 @@ init:
         }
       }
       updateVersionFromTag
-  - $env:JAVA_HOME = "C:\Program Files\Java\jdk15"
+  - ps: $env:JAVA_HOME = "C:\Program Files\Java\jdk15"
   - choco install "sonarscanner-msbuild-net46" -y
 
 assembly_info:
