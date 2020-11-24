@@ -20,7 +20,8 @@
                   name,
                   string.Format("/checkJobName?value={0}", name),
                   string.Format("/createItem?name={0}&mode={1}", name, model),
-                  string.Format("/job/{0}/doDelete", name))
+                  string.Format("/job/{0}/doDelete", name),
+                  string.Format("/job/{0}/buildWithParameters", name))
         {
         }
 
