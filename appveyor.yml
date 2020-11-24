@@ -8,7 +8,7 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: o3eU3GkT+/WJvy8kmju2A2ZfZHLy3yBMIKA3v8ITPiizl3Pjk1YqxG0STPy2DcLT
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 configuration: Release
 
@@ -28,7 +28,8 @@ init:
         }
       }
       updateVersionFromTag
-  - choco install "msbuild-sonarqube-runner" -y
+  - ps: $env:JAVA_HOME = "C:\Program Files\Java\jdk15"
+  - choco install "sonarscanner-msbuild-net46" -y
 
 assembly_info:
   patch: true
@@ -48,7 +49,7 @@ build:
 
 test_script:
   - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
-  - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNetClient*]* -[*Test*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:src/JenkinsNetClient.Tests/bin/$env:CONFIGURATION/JenkinsNetClient.Tests.dll /resultsfile:mstestTestResult.xml" -output:opencoverCoverage.xml
+  - ps: .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[JenkinsNetClient*]* -[*Test*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:src/JenkinsNetClient.Tests/bin/$env:CONFIGURATION/JenkinsNetClient.Tests.dll /resultsfile:mstestTestResult.xml" -output:opencoverCoverage.xml
   - nuget install coveralls.net -Version 0.412.0 -OutputDirectory tools
   - ps: .\tools\coveralls.net.0.412\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 
