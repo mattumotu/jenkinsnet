@@ -28,7 +28,7 @@ init:
         }
       }
       updateVersionFromTag
-  - choco install "msbuild-sonarqube-runner" -y
+  - choco install "sonarscanner-msbuild-net46" -y
 
 assembly_info:
   patch: true
